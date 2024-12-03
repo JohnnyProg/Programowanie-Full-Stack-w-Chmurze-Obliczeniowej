@@ -2,9 +2,9 @@
 # Kubernetes Lab Task - Full-Stack Cloud Programming
 
 ## **Namespace Creation**
-The task requires creating all resources within a namespace called `zad1`.
+Poniżej znajdują się wykorzystane pliki .yaml `zad1`.
 
-### **Manifest for Namespace**
+### **Namespace**
 ```yaml
 apiVersion: v1
 kind: Namespace
@@ -14,18 +14,11 @@ metadata:
 
 Command:
 ```bash
-kubectl apply -f namespace.yaml
+minikube kubectl -- apply -f namespace.yaml
 ```
 
 ---
-
-## **Resource Quotas**
-Resource quotas for the namespace were defined as:
-- Maximum Pods: 10
-- CPU: 2000m (2 CPU)
-- Memory: 1.5Gi
-
-### **Manifest for Resource Quota**
+### **Resource quota**
 ```yaml
 apiVersion: v1
 kind: ResourceQuota
@@ -43,15 +36,13 @@ spec:
 
 Command:
 ```bash
-kubectl apply -f quota.yaml
+minikube kubectl -- apply -f quota.yaml
 ```
 
 ---
 
-## **Worker Pod**
-A single Pod named `worker` with specific resource requests and limits.
 
-### **Manifest for Worker Pod**
+### **Worker Pod**
 ```yaml
 apiVersion: v1
 kind: Pod
@@ -73,15 +64,13 @@ spec:
 
 Command:
 ```bash
-kubectl apply -f worker-pod.yaml
+minikube kubectl -- apply -f worker-pod.yaml
 ```
 
 ---
 
-## **Deployment and Service**
-A deployment using the `php-apache` container image with autoscaling support.
 
-### **Manifest for Deployment**
+### **Deployment**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -110,7 +99,7 @@ spec:
             cpu: "250m"
 ```
 
-### **Manifest for Service**
+### **Service**
 ```yaml
 apiVersion: v1
 kind: Service
@@ -128,19 +117,14 @@ spec:
 
 Command:
 ```bash
-kubectl apply -f php-apache-deployment.yaml
-kubectl apply -f php-apache-service.yaml
+minikube kubectl -- apply -f php-apache-deployment.yaml
+minikube kubectl -- apply -f php-apache-service.yaml
 ```
 
 ---
 
-## **Horizontal Pod Autoscaler**
-HPA was configured with the following parameters:
-- `minReplicas`: 1
-- `maxReplicas`: 5
-- `targetCPUUtilizationPercentage`: 50
 
-### **Manifest for HPA**
+### **HPA**
 ```yaml
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -159,12 +143,12 @@ spec:
 
 Command:
 ```bash
-kubectl apply -f hpa.yaml
+minikube kubectl -- apply -f hpa.yaml
 ```
 
 ---
 
-## **Autoscaling Test**
+## **Test autoskalowania**
 A load generator was created to simulate traffic for the `php-apache` deployment.
 
 Command:
