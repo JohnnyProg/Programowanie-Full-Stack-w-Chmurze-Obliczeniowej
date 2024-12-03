@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: zad1
+  name: hpa-reader
+rules:
+- apiGroups: ["autoscaling"]
+  resources: ["horizontalpodautoscalers"]
+  verbs: ["get", "list", "watch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: hpa-reader-binding
+  namespace: zad1
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: zad1
+roleRef:
+  kind: Role
+  name: hpa-reader
+  apiGroup: rbac.authorization.k8s.io

@@ -148,6 +148,10 @@ minikube kubectl -- apply -f hpa.yaml
 
 ---
 
+![Image 1](creation.png)
+
+![Image 2](wynik.png)
+
 ## **Test autoskalowania**
 Obciążenie deploymentu zostało wykonane przez utworzenie nowego poda na obrazie busybox komendą poniżej:
 
