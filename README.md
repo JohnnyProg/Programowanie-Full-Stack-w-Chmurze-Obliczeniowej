@@ -149,24 +149,15 @@ minikube kubectl -- apply -f hpa.yaml
 ---
 
 ## **Test autoskalowania**
-A load generator was created to simulate traffic for the `php-apache` deployment.
+Obciążenie deploymentu zostało wykonane przez utworzenie nowego poda na obrazie busybox komendą poniżej:
 
 Command:
 ```bash
 kubectl run -i --tty load-generator --image=busybox --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://php-apache-service.zad1.svc.cluster.local; done"
 ```
 
-HPA results:
-```plaintext
-Name:                   php-apache-hpa
-Namespace:              zad1
-Min replicas:           1
-Max replicas:           5
-Desired replicas:       3
-Current CPU utilization: 60%
-```
+Wyniki:
 
----
 
 ## **Non-Mandatory Task**
 ### **1. Can you update a deployment controlled by HPA?**
