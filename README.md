@@ -154,25 +154,27 @@ minikube kubectl -- apply -f hpa.yaml
 
 ## **Test autoskalowania**
 Obciążenie deploymentu zostało wykonane przez utworzenie nowego poda na obrazie busybox komendą poniżej:
-
+![Image 3](obciazenie.png)
 Command:
 ```bash
 kubectl run -i --tty load-generator --image=busybox --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://php-apache-service.zad1.svc.cluster.local; done"
 ```
 
 Wyniki:
+![Image 4](replicas.png)
 
+## **Zadanie nieobowiązkowe**
+### **1. Czy możliwe jest dokonanie aktualizacji aplikacji (np. wersji obrazu kontenera) gdy
+aplikacja jest pod kontrolą autoskalera HPA ? Proszę do odpowiedzi (TAK lub NIE)
+dodać link do fragmentu dokumentacji, w którym jest rozstrzygnięta ta kwestia.**
+**Odpowiedź**: **Tak**, jest to możliwe. HPA działa niezależnie od deploymentu.
 
-## **Non-Mandatory Task**
-### **1. Can you update a deployment controlled by HPA?**
-**Answer**: **Yes**, it is possible. HPA works independently from the Deployment controller. 
+**Źródło**: [Kubernetes - Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/).
 
-**Source**: [Kubernetes - Horizontal Pod Autoscaler](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/).
+### **2. Parametry Rolling Update**
+Aby zagwarantować przynajmniej 2 aktywne pody podczas aktualizacji wymagana jest konfiguracja poniżej:
 
-### **2. Rolling Update Parameters**
-To ensure at least 2 Pods are active during the update without exceeding quotas:
-
-**Rolling Update Configuration**:
+**Konfiguracja**:
 ```yaml
 strategy:
   type: RollingUpdate
@@ -181,14 +183,17 @@ strategy:
     maxSurge: 1
 ```
 
-Changes in HPA:
-- Adjust `maxReplicas` to `6` to accommodate an additional Pod during the update.
+Zmiany dla HPA:
+- zmienić `maxReplicas` na `6` aby uwzględnić dodatkowe pody podczas aktualizacji.
 
-**Justification**:
-- `maxUnavailable: 0` ensures no downtime.
-- `maxSurge: 1` allows a single additional Pod during updates, adhering to resource limits.
+**Uzasadnienie**:
+- `maxUnavailable: 0` Zapewnia ciągłość działania aplikacji.
+- `maxSurge: 1` Pozwala na uruchomienie dodatkowego poda w czasie aktualizacji.
 
 ---
 
 ## **Summary**
-This task demonstrated creating and managing Kubernetes objects under specific constraints, including resource quotas and autoscaling. Autoscaler behavior and resource limits were validated through tests.
+
+To zadanie zademonstrowało tworzenie obiektów Kubernetes i zarządzanie nimi przy określonych ograniczeniach, w tym przydziałach zasobów i autoskalowaniu. Zachowanie autoskalera i limity zasobów zostały sprawdzone w testach.
+Prześlij opinię
+
